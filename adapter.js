@@ -19,9 +19,13 @@
       isAsync = false;
       if (done) {
         doneTimeout = setTimeout(function() {
-          var d = done;
-          done = null;
-          d();
+          // An exception can potentially be thrown after async actions finish,
+          // in which case the done callback will have been called and reset already
+          if (done) {
+            var d = done;
+            done = null;
+            d();
+          }
         });
       }
     },
