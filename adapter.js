@@ -23,6 +23,9 @@
         doneTimeout = setTimeout(function() {
           var d = done;
           done = null;
+          if (d === null) {
+            throw new Error('Done callback was prematurely reset, you probably have an async helper issue');
+          }
           d();
         });
       }
